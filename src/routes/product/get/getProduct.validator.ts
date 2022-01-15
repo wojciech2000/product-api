@@ -1,19 +1,5 @@
-import { param } from "express-validator";
-import Product from "../../../models/product/product.model";
+import { paramIdValidator } from "../common/validator/commonValidatorProducts";
 
-// Error messages
+const localParamIdValidator = paramIdValidator();
 
-// ID
-const productNotFound = "Product not found";
-
-export const getProductValidator = [
-  // ID
-  param("id").custom(async (id: string) => {
-    // check if Product Exists
-    try {
-      await Product.findById(id);
-    } catch (error) {
-      return Promise.reject(productNotFound);
-    }
-  }),
-];
+export const getProductValidator = [localParamIdValidator];

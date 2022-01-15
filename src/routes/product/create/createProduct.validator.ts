@@ -1,36 +1,17 @@
-import { body } from "express-validator";
 import Product from "../../../models/product/product.model";
+import { bodyNameValidator, bodyPriceValidator } from "../common/validator/commonValidatorProducts";
 
-// Error messages
-
-// Name
-const nameLengthRange = { min: 3, max: 100 };
-
-const nameIsString = "Name must be a string";
-const nameIsLength = `Name must have a length between ${nameLengthRange.min} and ${nameLengthRange.max}`;
 const nameIsTaken = "Name is taken";
 
-// Price
-const priceIsNumeric = "Price must be a number";
+const localBodyNameValidator = bodyNameValidator().custom(async (value: string) => {
+  // check if Product of passed name already exists
+  const findProduct = await Product.findOne({ name: value });
 
-export const createProductValudator = [
-  // NAME
-  body("name")
-    .isString()
-    .withMessage(nameIsString)
+  if (findProduct) {
+    return Promise.reject(nameIsTaken);
+  }
+});
 
-    .isLength(nameLengthRange)
-    .withMessage(nameIsLength)
+const localBodyPriceValidator = bodyPriceValidator();
 
-    .custom(async (value: string) => {
-      // check if Product of passed name already exists
-      const findProduct = await Product.findOne({ name: value });
-
-      if (findProduct) {
-        return Promise.reject(nameIsTaken);
-      }
-    }),
-
-  // PRICE
-  body("price").isNumeric().withMessage(priceIsNumeric),
-];
+export const createProductValudator = [localBodyNameValidator, localBodyPriceValidator];
