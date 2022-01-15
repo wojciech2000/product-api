@@ -30,7 +30,8 @@ export const paramIdValidator = () =>
   param("id").custom(async (id: string) => {
     // check if Product Exists
     try {
-      await Product.findById(id);
+      const findProduct = await Product.findById(id);
+      if (!findProduct) return Promise.reject(productNotFound);
     } catch (error) {
       return Promise.reject(productNotFound);
     }

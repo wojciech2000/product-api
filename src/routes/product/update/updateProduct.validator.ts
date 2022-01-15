@@ -1,11 +1,15 @@
-import { bodyNameValidator, bodyPriceValidator } from "../common/validator/commonValidatorProducts";
-import { getProductValidator } from "../get/getProduct.validator";
+import {
+  bodyNameValidator,
+  bodyPriceValidator,
+  paramIdValidator,
+} from "../common/validator/commonValidatorProducts";
 
+const localParamIdValidator = paramIdValidator();
 const localBodyNameValidator = bodyNameValidator();
 const localBodyPriceValidator = bodyPriceValidator();
 
 export const updateProductValidator = [
-  ...getProductValidator,
+  localParamIdValidator,
   localBodyNameValidator,
   localBodyPriceValidator,
 ];
