@@ -15,7 +15,7 @@ export const getProduct = async (req: Request, res: Response) => {
 export const getProducts = async (_: Request, res: Response) => {
   try {
     const findProducts = await Product.find();
-    res.status(201).json(findProducts);
+    res.status(201).json({ total: findProducts.length, findProducts });
   } catch (error) {
     res.status(400).json(error);
   }
