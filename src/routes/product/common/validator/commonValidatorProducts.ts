@@ -10,6 +10,7 @@ const nameLengthRange = { min: 3, max: 100 };
 
 const nameIsString = "Name must be a string";
 const nameIsLength = `Name must have a length between ${nameLengthRange.min} and ${nameLengthRange.max}`;
+export const nameIsTaken = "Name is taken";
 
 export const bodyNameValidator = () =>
   body("name")
